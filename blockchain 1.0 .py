@@ -1,0 +1,49 @@
+import hashlib
+import os
+import pandas as pd 
+from time import time
+
+class BlockChain():
+
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.data = time()
+        self.blockchain = pd.read_csv(file_path)
+        self.hash_anterior = self.blockchain.iloc[-1]
+
+    def encrypt(self, emisario, remetente, valor):
+
+        hash_str = ''
+        prova_trabalho = 0
+
+        while hash_str[:2] != '00':
+
+            mensagem = '{},{},{},{},{},{}'.format(emisario, remetente, valor, self.data, prova_trabalho, self.hash_anterior)
+
+            hash_str = hashlib.sha256(mensagem.encode()).hexdigest()
+
+            prova_trabalho += 1
+
+        linha = [emisario, remetente, valor, self.data, prova_trabalho, hash_str]
+
+        return linha
+
+    def escrever(self, mensagem):
+
+        #mensagem tem que estar no formato: [emisario, remetente, valor, self.data, self.hash_anterior]
+
+        self.blockchain.loc[len(self.blockchain)] = mensagem
+
+
+        os.remove(self.file_path)
+        self.blockchain.to_csv(self.file_path, index=False)
+
+
+def main():
+
+    b = BlockChain("C:/Users/UsuarioOct/OneDrive/Documentos/Python/projetos/maker_coin/Maker coin 1.0/Blockchain 0.csv")
+
+    b.escrever(b.encrypt('Crusinsk', 'Mantovani', 0.25))
+
+if __name__ == '__main__':
+    main()
