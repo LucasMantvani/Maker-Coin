@@ -1,3 +1,5 @@
+'''Código By João Lucas Mantovani Baiôco & Bruno Carvalho Kruscinscki'''
+
 import hashlib
 import os
 import pandas as pd 
@@ -41,9 +43,9 @@ class BlockChain():
 
 def main():
 
-    b = BlockChain("C:/Users/UsuarioOct/OneDrive/Documentos/Python/projetos/maker_coin/Maker coin 1.0/Blockchain 0.csv")
+    b = BlockChain("caminho do arquivo")
 
-    b.escrever(b.encrypt('Crusinsk', 'Mantovani', 0.25))
+    b.escrever(b.encrypt('emisor', 'remetente', valor))
 
 if __name__ == '__main__':
     main()
